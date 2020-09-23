@@ -12,25 +12,25 @@
         <span class="percent-text-1">
           每日增长率:<LjjCountTo :decimals="2"
                             :duration="1000"
-                            suffix='%'
                             :endVal="growthLastDay"
-                            :startVal="startPercent"/>
+                            :startVal="startPercent"
+                            suffix="%"/>
           <!--{{ growthLastDay }}-->
 
         </span>
       <span class="percent-text-2">
         每月增长率:<LjjCountTo :decimals="2"
                           :duration="1000"
-                          suffix='%'
                           :endVal="growthLastMonth"
-                          :startVal="startPercent2"/>
+                          :startVal="startPercent2"
+                          suffix="%"/>
 
         </span>
     </div>
     <div class="percent">
       <div class="percent-inner-wrapper">
-        <div
-            class="percent-inner"/>
+        <div :style="{width: `${growthLastDay}%`}"
+             class="percent-inner"/>
       </div>
     </div>
   </div>

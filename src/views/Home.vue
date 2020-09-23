@@ -1,15 +1,14 @@
 <template>
   <div class="home">
-    <LjjLoading class="loading"
-                v-if="isShowLoading">
+    <LjjLoading v-if="isShowLoading"
+                class="loading">
       <div class="loading-text">数据加载中...</div>
     </LjjLoading>
-    <LjjContainer :options="{width:3840,height: 2160}"
-                  v-else>
+    <LjjContainer v-else
+                  :options="{width:3840,height: 2160}">
       <div class="header">
         <TopHeader/>
       </div>
-<!--      <div class="separator"></div>-->
       <div class="center">
         <div class="left">
           <div class="left1">
@@ -17,11 +16,22 @@
                        :growth-last-month="growthLastMonth"
                        :today-user="todayUser"/>
           </div>
-          <div class="left2">444</div>
-          <div class="left3">555</div>
-          <div class="left4">666</div>
-          <div class="left5">777</div>
-          <div class="left6">888</div>
+          <div class="left2">
+            <AverageAge :avgAge="averageAge"
+                        :data="ageData"></AverageAge>
+          </div>
+          <div class="left3">
+            <TotalDevice :data="deviceData"></TotalDevice>
+          </div>
+          <div class="left4">
+            <TotalGender :data="genderData"></TotalGender>
+          </div>
+          <div class="left5">
+            <TotalRider :data="riderData"></TotalRider>
+          </div>
+          <div class="left6">
+            <HotCategory></HotCategory>
+          </div>
         </div>
         <div class="right">
           <div class="right-top1">right-top1</div>
@@ -48,13 +58,22 @@
 import { onMounted, ref } from 'vue'
 import TopHeader from '@/components/TopHeader/index'
 import TotalUser from '@/components/TotalUser/index'
+import AverageAge from '@/components/AverageAge/index'
 import useScreenData from '@/hooks/useScreenData'
-
+import TotalDevice from '@/components/TotalDevice/index'
+import TotalGender from '@/components/TotalGender/index'
+import TotalRider from '@/components/TotalRider/index'
+import HotCategory from '@/components/HotCategory/index'
 export default {
   name: 'Home',
   components: {
     TopHeader,
-    TotalUser
+    TotalUser,
+    AverageAge,
+    TotalDevice,
+    TotalGender,
+    TotalRider,
+    HotCategory
   },
   setup() {
     const isShowLoading = ref(true)
@@ -66,7 +85,25 @@ export default {
 
     return {
       isShowLoading,
-      ...useScreenData()
+      ...useScreenData(),
+      options: {
+        title: {
+          text: 'ECharts 入门示例'
+        },
+        tooltip: {},
+        legend: {
+          data: ['销量']
+        },
+        xAxis: {
+          data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
+        },
+        yAxis: {},
+        series: [{
+          name: '销量',
+          type: 'bar',
+          data: [5, 20, 36, 10, 10, 20]
+        }]
+      }
     }
   }
 }

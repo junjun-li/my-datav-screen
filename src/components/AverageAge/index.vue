@@ -7,7 +7,7 @@
       </div>
       <div class="average-age-right">
         <div class="age">
-          <count-to
+          <LjjCountTo
               :decimals="2"
               :duration="1000"
               :end-val="avgAge"
@@ -17,13 +17,15 @@
         </div>
       </div>
     </div>
-    <div id="average-age-chart"/>
+    <div id="average-age-chart">
+      <LjjEcharts :options="options"></LjjEcharts>
+    </div>
     <div class="average-data-wrapper">
-      <div :key="index"
-           class="average-data"
-           v-for="(item, index) in data">
+      <div v-for="(item, index) in data"
+           :key="index"
+           class="average-data">
         <div class="average-data-value">
-          <count-to
+          <LjjCountTo
               :duration="1000"
               :end-val="item.value"
               :start-val="item.startValue"
@@ -40,24 +42,106 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 
 // const color = ['rgb(116,166,49)', 'rgb(190,245,99)', 'rgb(202,252,137)', 'rgb(251,253,142)']
 
 export default {
-  name: 'averageAge',
+  name: 'AverageAge',
   props: {
     data: Array,
     avgAge: Number
   },
-  setup() {
+  setup(ctx) {
     const startAge = ref(0)
-    const update = () => {
+    const options = ref({})
+    const updateChart = () => {
+      const data = ['数量']
+      const color = []
+      const axis = ['指标']
+      let maxValue = 0
+      ctx.data.forEach(item => {
+        data.push(+item.value)
+        color.push(item.color)
+        axis.push(item.axis)
+        maxValue += (+item.value)
+      })
+      options.value = {
+        tooltip: {
+          textStyle: {
+            fontSize: 28
+          },
+          padding: 10
+        },
+        color,
+        // 设置位置
+        grid: {
+          left: 40,
+          right: 40,
+          top: 0
+        },
+        // 数据集, 也可以不使用这个, 把数据单独放在xAxis和yAxis当中
+        dataset: {
+          source: [
+            axis,
+            data
+          ]
+        },
+        xAxis: {
+          type: 'value',
+          max: maxValue,
+          // 很长的 一根线
+          splitLine: { show: false },
+          // 小短线
+          axisTick: { show: false },
+          // x轴的 label
+          axisLabel: {
+            color: 'rgb(98,105,113)',
+            fontSize: 18
+          },
+          // label上面的一根线
+          axisLine: {
+            lineStyle: {
+              // color: 'red',
+              color: 'rgb(50,51,53)',
+              width: 3
+            }
+          }
+        },
+        yAxis: {
+          type: 'category',
+          show: false
+        },
+        series: [
+          {
+            type: 'bar',
+            stack: 'total',
+            barWidth: 15
+          }, {
+            type: 'bar',
+            stack: 'total'
+          }, {
+            type: 'bar',
+            stack: 'total'
+          }, {
+            type: 'bar',
+            stack: 'total' // 让他们处于同一个分组
+          }
+        ]
+      }
     }
-
+    watch(() => ctx.avgAge, (nextValue, prevValue) => {
+      startAge.value = prevValue
+    })
+    watch(() => ctx.data, () => {
+      updateChart()
+    })
+    onMounted(() => {
+      updateChart()
+    })
     return {
       startAge,
-      update
+      options
     }
   }
 }
