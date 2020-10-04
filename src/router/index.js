@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '@/views/Home.vue'
-import Text from '@/views/Text.vue'
+import Test from '@/views/Test.vue'
 import EchartsText from '@/views/EchartsText.vue'
 
 const routes = [
@@ -10,9 +10,9 @@ const routes = [
     component: Home
   },
   {
-    path: '/text',
-    name: 'Text',
-    component: Text
+    path: '/test',
+    name: 'Test',
+    component: Test
   },
   {
     path: '/echartsText',

@@ -34,17 +34,26 @@
           </div>
         </div>
         <div class="right">
-          <div class="right-top1">right-top1</div>
-          <div class="right-top2">right-top2</div>
+          <div class="right-top1">
+            <center-header/>
+          </div>
+          <div class="right-top2">
+            <TransformCategory :data="['ALL', '北京', '上海', '深圳', '杭州', '南京', '武汉']"/>
+          </div>
           <div class="right-bottom">
             <div class="right-left">
               <div class="right-left1">right-left1</div>
-              <div class="right-left2">right-left2</div>
+              <div class="right-left2">
+                <TransformCategory :color="['rgb(178, 209, 126)', 'rgb(116, 166, 49)']"
+                                   :data="['订单量', '销售额', '用户数', '退单量']"/>
+              </div>
               <div class="right-left3">right-left3</div>
               <div class="right-left4">right-left4</div>
             </div>
             <div class="right-right">
-              <div class="right-right1">right-right1</div>
+              <div class="right-right1">
+                <sales-list/>
+              </div>
               <div class="right-right2">right-right2</div>
             </div>
           </div>
@@ -64,9 +73,16 @@ import TotalDevice from '@/components/TotalDevice/index'
 import TotalGender from '@/components/TotalGender/index'
 import TotalRider from '@/components/TotalRider/index'
 import HotCategory from '@/components/HotCategory/index'
+import CenterHeader from '@/components/CenterHeader/index'
+import TransformCategory from '@/components/TransformCategory/index'
+import SalesList from '@/components/SalesList/index'
+
 export default {
   name: 'Home',
   components: {
+    SalesList,
+    TransformCategory,
+    CenterHeader,
     TopHeader,
     TotalUser,
     AverageAge,
@@ -266,13 +282,13 @@ export default {
             display: flex;
             flex-direction: column;
             margin-left: 10px;
-
+            margin-right: 20px;
             .right-right1 {
               width: 100%;
               height: 999px;
-              padding-right: 10px;
+              //padding-right: 10px;
               box-sizing: border-box;
-              background: salmon;
+              //background: salmon;
             }
 
             .right-right2 {
